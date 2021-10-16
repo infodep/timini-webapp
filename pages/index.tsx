@@ -7,7 +7,7 @@ import { Layout } from "../components/layout/Layout";
 const Home: NextPage = () => {
   return (
     <Layout>
-      <div>This is the home for timini.no</div>
+      <div>This is the new home for timini.no</div>
     </Layout>
   );
 };
