@@ -1,3 +1,9 @@
+/*--- Tailwind CSS ---*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*--- Custom CSS (minimalize if possible)---*/
 html,
 body {
   padding: 0;
