@@ -14,7 +14,7 @@ export const Layout = ({ children }: Props): JSX.Element => {
   const [preferredTheme, setPreferredTheme] = useState<ThemeNames>("light");
   useEffect(() => {
     axiosInstance()
-      .get("/user/me")
+      .get("/v1/user/me")
       .then((res) => res.data)
       .then((data) => setPreferredTheme(data.theme))
       .catch(() => console.warn("Warning: Using fallback theme"));

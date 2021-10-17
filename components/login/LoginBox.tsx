@@ -2,10 +2,12 @@ import Router from "next/router";
 import React, { useState } from "react";
 import axiosInstance from "../../helpers/axios/axiosInstance";
 
-const signin = async (username: string, password: string) => {
+const signin = async (username: string, password: string, url?: string) => {
+  console.log(username, password);
   await axiosInstance()
     .post("/v1/login", {
-      body: JSON.stringify({ username, password }),
+      username: username,
+      password: password,
     })
     .then((res) => {
       console.log(res);
@@ -19,7 +21,8 @@ const signin = async (username: string, password: string) => {
       throw new Error(err.message);
     });
 
-  Router.push("/");
+  if (!url) url = "/";
+  Router.push(url);
 };
 
 export const LoginBox = (): JSX.Element => {
@@ -33,11 +36,11 @@ export const LoginBox = (): JSX.Element => {
     event.preventDefault();
     setUserData({ ...userData, error: "" });
 
-    const email = userData.username;
+    const username = userData.username;
     const password = userData.password;
 
     try {
-      await signin(email, password);
+      await signin(username, password);
     } catch (error) {
       console.error(error);
       let errorMessage = "Login failed";
