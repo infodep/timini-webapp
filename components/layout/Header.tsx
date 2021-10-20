@@ -1,24 +1,19 @@
 import { AppBar, Container } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import Link from "next/link";
 import { LoginBox } from "../login/LoginBox";
 import Image from "next/image";
-
-const useStyles = makeStyles(() => ({
-  profileBox: {
-    float: "right",
-  },
-}));
+import AuthContext from "../../contexts/auth";
+import { useContext } from "react";
 
 export const Header = (): JSX.Element => {
-  const classes = useStyles();
+  const { user_id } = useContext(AuthContext);
   return (
     <AppBar className="header" position="relative">
       <Container>
         <Image src="/../../assets/images/logo.svg" alt="Timini" width="224px" height="75px" />
-        <div className={classes.profileBox}>
+        <div>
           <LoginBox />
-          <div className="profile-box">I am the profile box now</div>
+          <div className="profile-box">I am the profile box now {user_id}</div>
         </div>
         <nav>
           <Link href="/">
