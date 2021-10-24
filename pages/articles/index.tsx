@@ -1,4 +1,5 @@
 import { NextPage, GetServerSideProps } from "next";
+import useSWR from "swr";
 import { ArticleBox } from "../../components/article/ArticleBox";
 import { Layout } from "../../components/layout/Layout";
 import axiosInstance from "../../helpers/axios/axiosInstance";
@@ -9,9 +10,10 @@ interface ArticleProps {
 }
 
 const Articles: NextPage<ArticleProps> = ({ articles }) => {
+  const { data } = useSWR<Article[]>("/v1/article/", { fallbackData: articles });
   return (
     <Layout>
-      {articles.map((article, index) => (
+      {data?.map((article, index) => (
         <ArticleBox article={article} key={index} />
       ))}
     </Layout>

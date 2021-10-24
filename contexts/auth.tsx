@@ -1,9 +1,8 @@
-import { useRouter } from "next/router";
 import { createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
-import axiosInstance from "../helpers/axios/axiosInstance";
 import jwt_decode from "jwt-decode";
 import { Token } from "../interfaces/Token";
 import { Tokens } from "../interfaces/Tokens";
+import axios from "axios";
 
 interface Props {
   children: React.ReactNode;
@@ -46,10 +45,10 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
     refresh_token ? jwt_decode<Token>(refresh_token).id : null,
   );
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  //const router = useRouter();
 
   const loginUser = async (username: string, password: string, url?: string) => {
-    await axiosInstance()
+    await axios
       .post("/v1/login", {
         username: username,
         password: password,
