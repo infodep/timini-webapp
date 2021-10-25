@@ -1,15 +1,18 @@
-import Router from "next/router";
-import axios, { AxiosInstance } from "axios";
-import { useContext } from "react";
-import AuthContext from "../../contexts/auth";
-import jwtDecode from "jwt-decode";
+import axios, { AxiosError } from "axios";
 import dayjs from "dayjs";
+import jwtDecode from "jwt-decode";
+import Router from "next/router";
+import { useContext } from "react";
+import useSWR, { SWRConfiguration, SWRResponse } from "swr";
+import AuthContext from "../../contexts/auth";
 import { Token } from "../../interfaces/Token";
 
+type Return<Data, Error> = SWRResponse<Data, AxiosError<Error>>;
+
 /**
- * Wrapper for axios which automatically refreshes token. Use for everything that isnt GET
+ *  Wrapper function for useSWR while still maintaining token auth
  */
-const useAxios = (): AxiosInstance => {
+const useGet = <Data = unknown, Error = unknown>(url: string, config?: SWRConfiguration): Return<Data, Error> => {
   const { authTokens, setAuthTokens, setUser } = useContext(AuthContext);
   const { refresh_token, access_token } = authTokens;
 
@@ -17,10 +20,6 @@ const useAxios = (): AxiosInstance => {
     xRefreshToken: refresh_token,
     xAccessToken: access_token,
   };
-
-  if (typeof window !== "undefined" && window.localStorage.refresh_token) {
-    headers.xRefreshToken = window.localStorage.refresh_token;
-  }
 
   const axiosInstance = axios.create({
     headers,
@@ -69,7 +68,8 @@ const useAxios = (): AxiosInstance => {
       }
     },
   );
-  return axiosInstance;
+
+  return useSWR<Data, AxiosError<Error>>(url, (url) => axiosInstance.get(url).then((res) => res.data), config);
 };
 
-export default useAxios;
+export default useGet;

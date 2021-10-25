@@ -1,5 +1,5 @@
 import { Grid, ThemeProvider, createTheme, Container } from "@mui/material";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import useAxios from "../../helpers/hooks/useAxios";
 import getDesignTokens from "../../helpers/materialui/theme";
 import { ThemeNames } from "../../interfaces/ThemeNames";
