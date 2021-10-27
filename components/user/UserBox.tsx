@@ -7,7 +7,7 @@ export const UserBox = (): JSX.Element => {
   const { user, isError } = useUser(user_id!);
 
   if (isError || !user) {
-    return <div>Error: {isError}</div>;
+    return <div>Error: {isError?.message}</div>;
   }
   return (
     <div>
