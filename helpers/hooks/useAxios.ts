@@ -2,7 +2,7 @@ import Router from "next/router";
 import axios, { AxiosInstance } from "axios";
 import { useContext } from "react";
 import AuthContext from "../../contexts/auth";
-import jwtDecode from "jwt-decode";
+import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import { Token } from "../../interfaces/Token";
 
@@ -18,8 +18,8 @@ const useAxios = (): AxiosInstance => {
     xAccessToken: access_token,
   };
 
-  if (typeof window !== "undefined" && window.localStorage.refresh_token) {
-    headers.xRefreshToken = window.localStorage.refresh_token;
+  if (typeof window !== "undefined" && window.localStorage.getItem("refresh_token")) {
+    headers.xRefreshToken = window.localStorage.getItem("refresh_token");
   }
 
   const axiosInstance = axios.create({
@@ -34,13 +34,13 @@ const useAxios = (): AxiosInstance => {
     }
 
     // if we have a refresh token but not an access token or the access token is expired, we refresh it. Refresh 5s before expiry
-    if (access_token == null || dayjs(jwtDecode<Token>(access_token).exp).diff() < 5 * 1000) {
+    if (access_token == null || dayjs(jwt_decode<Token>(access_token).exp).diff() < 5 * 1000) {
       await axios
         .post("/v1/token")
         .then((res) => res.data)
         .then((data) => {
           setAuthTokens({ refresh_token: authTokens.refresh_token, access_token: data["access_token"] });
-          setUser(jwtDecode<Token>(refresh_token).id);
+          setUser(jwt_decode<Token>(refresh_token).id);
         });
     }
 
