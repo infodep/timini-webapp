@@ -3,7 +3,7 @@ import type { AppProps } from "next/app";
 import axios from "axios";
 import { AuthProvider } from "../contexts/auth";
 
-axios.defaults.baseURL = "http://react.hauklien.com:8000";
+axios.defaults.baseURL = process.env.BASE_URL || "http://localhost:8000";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
