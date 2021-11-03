@@ -1,4 +1,4 @@
-import {ThemeProvider, createTheme} from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material";
 import React, { ReactNode, useState } from "react";
 import useAxios from "../../helpers/hooks/useAxios";
 import getDesignTokens from "../../helpers/materialui/theme";
@@ -25,9 +25,7 @@ export const Layout = ({ children }: Props): JSX.Element => {
     <ThemeProvider theme={theme}>
       <div className="flex flex-col h-screen">
         <Header />
-        <div className="container mx-auto px-4 flex-grow">
-          {children}
-        </div>
+        <div className="container mx-auto px-4 flex-grow">{children}</div>
         <Footer />
       </div>
     </ThemeProvider>

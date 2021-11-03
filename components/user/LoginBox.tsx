@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import AuthContext from "../../contexts/auth";
 
-
 export const LoginBox = (): JSX.Element => {
   const [userData, setUserData] = useState({
     username: "",
@@ -57,7 +56,12 @@ export const LoginBox = (): JSX.Element => {
             onChange={(event) => setUserData(Object.assign({}, userData, { password: event.target.value }))}
           />
         </div>
-        <button className="flex-3 relative items-center justify-center bg-blue-400 p-2 ml-1 hover:bg-blue-800" type="submit">Login</button>
+        <button
+          className="flex-3 relative items-center justify-center bg-blue-400 p-2 ml-1 hover:bg-blue-800"
+          type="submit"
+        >
+          Login
+        </button>
 
         {userData.error && <p className="error">Error: {userData.error}</p>}
       </form>
