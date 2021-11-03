@@ -2,8 +2,10 @@ import { AppBar, Container } from "@mui/material";
 
 export const Footer = (): JSX.Element => {
   return (
-    <AppBar className="footer" position="relative" color="secondary">
-      <Container className="spacefill">ÆÆÆÆÆÆÆÆÆ</Container>
-    </AppBar>
+    <div className="bg-gray-800 w-screen text-white ">
+      <div className="container mx-auto px-4 flex justify-center items-center h-32">
+        <p>Timini © 2021</p>
+      </div>
+    </div>
   );
 };
