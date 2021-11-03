@@ -1,26 +1,5 @@
-import Router from "next/router";
-import React, { useState } from "react";
-import axiosInstance from "../../helpers/axios/axiosInstance";
-
-const signin = async (username: string, password: string) => {
-  await axiosInstance()
-    .post("/v1/login", {
-      body: JSON.stringify({ username, password }),
-    })
-    .then((res) => {
-      console.log(res);
-      return res.data;
-    })
-    .then((data) => {
-      console.log(data);
-      window.localStorage.setItem("refresh_token", data.refresh_token);
-    })
-    .catch((err) => {
-      throw new Error(err.message);
-    });
-
-  Router.push("/");
-};
+import React, { useState, useContext } from "react";
+import AuthContext from "../../contexts/auth";
 
 export const LoginBox = (): JSX.Element => {
   const [userData, setUserData] = useState({
@@ -29,15 +8,17 @@ export const LoginBox = (): JSX.Element => {
     error: "",
   });
 
+  const { loginUser } = useContext(AuthContext);
+
   async function handleSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setUserData({ ...userData, error: "" });
 
-    const email = userData.username;
+    const username = userData.username;
     const password = userData.password;
 
     try {
-      await signin(email, password);
+      await loginUser(username, password);
     } catch (error) {
       console.error(error);
       let errorMessage = "Login failed";

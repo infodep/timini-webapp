@@ -1,6 +1,6 @@
 import { Grid, ThemeProvider, createTheme, Container } from "@mui/material";
-import React, { ReactNode, useEffect, useState } from "react";
-import axiosInstance from "../../helpers/axios/axiosInstance";
+import React, { ReactNode, useState } from "react";
+import useAxios from "../../helpers/hooks/useAxios";
 import getDesignTokens from "../../helpers/materialui/theme";
 import { ThemeNames } from "../../interfaces/ThemeNames";
 import { Footer } from "./Footer";
@@ -12,13 +12,11 @@ interface Props {
 
 export const Layout = ({ children }: Props): JSX.Element => {
   const [preferredTheme, setPreferredTheme] = useState<ThemeNames>("light");
-  useEffect(() => {
-    axiosInstance()
-      .get("/user/me")
-      .then((res) => res.data)
-      .then((data) => setPreferredTheme(data.theme))
-      .catch(() => console.warn("Warning: Using fallback theme"));
-  }, []);
+  useAxios()
+    .get("/v1/user/me")
+    .then((res) => res.data)
+    .then((data) => setPreferredTheme(data.theme))
+    .catch(() => console.warn("Warning: Using fallback theme"));
 
   // Update the theme only if the mode changes
   const theme = React.useMemo(() => createTheme(getDesignTokens(preferredTheme)), [preferredTheme]);
