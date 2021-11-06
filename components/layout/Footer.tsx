@@ -1,5 +1,3 @@
-import { AppBar, Container } from "@mui/material";
-
 export const Footer = (): JSX.Element => {
   return (
     <div className="bg-gray-800 w-screen text-white ">
