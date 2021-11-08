@@ -4,7 +4,11 @@ import useUser from "../../helpers/hooks/useUser";
 
 export const UserBox = (): JSX.Element => {
   const { user_id } = useContext(AuthContext);
-  const { user, isError } = useUser(user_id!);
+  const { user, isError, isLoading } = useUser(user_id!);
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
 
   if (isError || !user) {
     return <div>Error: {isError?.message}</div>;

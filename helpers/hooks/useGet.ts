@@ -17,8 +17,8 @@ const useGet = <Data = unknown, Error = unknown>(url: string, config?: SWRConfig
   const { refresh_token, access_token } = authTokens;
 
   const headers = {
-    xRefreshToken: refresh_token,
-    xAccessToken: access_token,
+    "x-refresh-token": refresh_token,
+    "x-access-token": access_token,
   };
 
   const axiosInstance = axios.create({
@@ -34,7 +34,11 @@ const useGet = <Data = unknown, Error = unknown>(url: string, config?: SWRConfig
 
     // if we have a refresh token but not an access token or the access token is expired, we refresh it. Refresh 5s before expiry
     if (access_token == null || dayjs(jwt_decode<Token>(access_token).exp).diff() < 5 * 1000) {
-      await axios
+      const tempInstance = axios.create({
+        headers,
+        timeout: 1000,
+      });
+      await tempInstance
         .post("/v1/token")
         .then((res) => res.data)
         .then((data) => {
@@ -43,7 +47,7 @@ const useGet = <Data = unknown, Error = unknown>(url: string, config?: SWRConfig
         });
     }
 
-    req.headers.xAccessToken = authTokens.access_token;
+    req.headers["x-access-token"] = authTokens.access_token;
 
     return req;
   });
