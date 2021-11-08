@@ -14,12 +14,12 @@ const useAxios = (): AxiosInstance => {
   const { refresh_token, access_token } = authTokens;
 
   const headers = {
-    xRefreshToken: refresh_token,
-    xAccessToken: access_token,
+    "x-refresh-token": refresh_token,
+    "x-tccess-token": access_token,
   };
 
   if (typeof window !== "undefined" && window.localStorage.getItem("refresh_token")) {
-    headers.xRefreshToken = window.localStorage.getItem("refresh_token");
+    headers["x-refresh-token"] = window.localStorage.getItem("refresh_token");
   }
 
   const axiosInstance = axios.create({
@@ -44,7 +44,7 @@ const useAxios = (): AxiosInstance => {
         });
     }
 
-    req.headers.xAccessToken = authTokens.access_token;
+    req.headers["x-access-token"] = authTokens.access_token;
 
     return req;
   });
